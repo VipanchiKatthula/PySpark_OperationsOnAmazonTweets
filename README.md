@@ -4,7 +4,7 @@ Analyzed the tweets on the busiest day to find the words that were repeated the 
 
 Summary of operations:
 
-**Import csv file:**
+**Import csv file:** \n
 data = spark.read.format("csv").option("header","true").load("filepath/filename.csv")
 
 **Selecting the required columns from a data frame:**
