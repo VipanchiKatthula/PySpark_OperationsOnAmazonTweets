@@ -25,7 +25,21 @@ dat_filtered = dat_filtered.withColumn('Month', a.getItem(1))
 dat_filtered = dat_filtered1.withColumn('Date', a.getItem(2))  
 dat_filtered = dat_filtered1.withColumn('Year', a.getItem(5))  
 
-**6. Concatenating multiple columns to form a new one **  
-dat_filtered1.select(concat(col("Month"), lit(" "), col("Date"),lit(" "), col("Year")).alias("Date"))  
+**6. Concatenating multiple columns to form a new one**  
+dat_filtered.select(concat(col("Month"), lit(" "), col("Date"),lit(" "), col("Year")).alias("Date"))  
 
+**7. Importing SQL funtions col,lit**  
+import pyspark.sql.functions as sq 
+dat_filtered.withColumn("tweet_created_at",sq.concat(col("Month"), sq.lit(" "), sq.col("Date"),sq.lit(" "), sq.col("Year")))
 
+**8. Aggregations on dataframe**  
+df.groupby(df.date).agg(sq.count('id_str').alias("count_of_tweets"))  
+Above command counts the number of tweets grouped by the date  
+
+**9. Initializing spark context and sql context to perform SQL queries**  
+conf = pyspark.SparkConf()  
+sc = pyspark.SparkContext.getOrCreate(conf=conf)  
+from pyspark.sql import SQLContext  
+sqlcontext = SQLContext(sc)  
+counts.registerTempTable("tmpcounts")  
+counts_ordered = sqlcontext.sql("SELECT * FROM tmpcounts order by count_of_tweets desc limit 5")  
