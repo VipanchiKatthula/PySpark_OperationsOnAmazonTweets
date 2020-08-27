@@ -1,7 +1,30 @@
 # PySpark Operations On Amazon Tweets  
-This repository shows the implementation of Spark context, Spark SQL context on Amazon Tweets data set with 400k Tweets. I dealt with tweet_id (id_str), Tweet_created_time, Retweet_count, Favourite_count to find the days with high influx of tweets.  
-Analyzed the tweets on the busiest day to find the words that were repeated the most in the selected tweets.
 
+### TABLE OF CONTENTS
+* [Objective](#objective)
+* [Technologies](#technologies)
+* [Algorithms](#algorithms)
+* [Data](#data)
+* [Implementation](#implementation)
+* [Results](#results)
+
+## OBJECTIVE 
+* Repository to showcase the implementation of Spark context, Spark SQL context on Amazon Tweets data set with 400k Tweets. 
+* Dealt with tweet_id (id_str), Tweet_created_time, Retweet_count, Favourite_count to find the days with high influx of tweets.  
+* Analyzed the tweets on the busiest day to find the words that were repeated the most in the selected tweets.
+
+## TECHNOLOGIES
+Project is created with: 
+* Python - **pandas, seaborn, sklearn**
+* Spark
+
+## ALGORITHMS
+Map Reduce in Spark
+
+## DATA
+The used dataset is a collection of tweets where Amazon was tagged by the users on Twitter to review its service. For each and every tweet/record in dataset, the sentiment of the tweet is also recorded and that is the binary target variable for the dataset. As the dataset consists of 400k records, we cannot build and run machine learning models directly and we would need to have a Big Data service to distribute and run the program. So, PySpark was used as it is easy to integrate it with Python for analysis.
+
+## IMPLEMENTATION
 Summary of operations:  
 
 **1. Import csv file:**  
@@ -43,3 +66,7 @@ from pyspark.sql import SQLContext
 sqlcontext = SQLContext(sc)  
 counts.registerTempTable("tmpcounts")  
 counts_ordered = sqlcontext.sql("SELECT * FROM tmpcounts order by count_of_tweets desc limit 5")  
+
+## RESULTS
+The Built model has processed 400k records in under 3 minutes and the same data took 15 minutes to load in Python without spark for data processing.
+
